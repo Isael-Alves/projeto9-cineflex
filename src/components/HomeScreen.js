@@ -1,15 +1,22 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import filme from "../assets/img/image 3.svg";
-export default function HomeScreen() {
+
+export default function HomeScreen({ setPhases }) {
+  // setPhases("Selecione o horário");
   return (
     <>
       <Movielist>
-        <Movie>
-          <img src={filme} alt="" />
-        </Movie>
-        <Movie>
-          <img src={filme} alt="" />
-        </Movie>
+        <Link to="/sessoes/:idFilme">
+          <Movie>
+            <img src={filme} alt="" />
+          </Movie>
+        </Link>
+        <Link to="/sessoes/:idFilme">
+          <Movie>
+            <img src={filme} alt="" />
+          </Movie>
+        </Link>
       </Movielist>
     </>
   );

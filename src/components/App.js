@@ -1,17 +1,34 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import React from "react";
-// import HomeScreen from "./HomeScreen";
+import HomeScreen from "./HomeScreen";
 import TimeScreen from "./TimeScreen";
+import SessionsScreen from "./TimeScreen";
 
 export default function App() {
   const [phases, setPhases] = React.useState("Selecione o filme");
-
+  // const [footer, setFooter] = React.useState({
+  //   img: "",
+  //   movie: "",
+  //   time: "",
+  // });
   return (
     <Body>
       <Header>CINEFLEX</Header>
       <Phase>{phases}</Phase>
-      {/* <HomeScreen /> */}
-      <TimeScreen setPhases={setPhases}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route
+            path="/sessoes/:idFilme"
+            element={<TimeScreen setPhases={setPhases} />}
+          />
+          <Route
+            path="/assentos/:idSessao"
+            element={<SessionsScreen setPhases={setPhases} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </Body>
   );
 }

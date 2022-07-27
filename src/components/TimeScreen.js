@@ -1,22 +1,31 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import filme from "../assets/img/image 3.svg";
 // import { useState } from "react";
-export default function TimeScreen(setPhases) {
+export default function TimeScreen({ setPhases }) {
   return (
     <>
       <Timelist>
         <Sessions>
           <h2>Quinta-feira - 24/06/2021</h2>
           <Schedules>
-            <div>14:00</div>
-            <div>14:00</div>
+            <Link to="/assentos/:idSessao">
+              <div>14:00</div>
+            </Link>
+            <Link to="/assentos/:idSessao">
+              <div>14:00</div>
+            </Link>
           </Schedules>
         </Sessions>
         <Sessions>
           <h2>Quinta-feira - 24/06/2021</h2>
           <Schedules>
-            <div>14:00</div>
-            <div>14:00</div>
+            <Link to="/assentos/:idSessao">
+              <div>14:00</div>
+            </Link>
+            <Link to="/assentos/:idSessao">
+              <div>14:00</div>
+            </Link>
           </Schedules>
         </Sessions>
       </Timelist>
