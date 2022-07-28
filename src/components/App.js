@@ -18,13 +18,13 @@ export default function App() {
       <Phase>{phases}</Phase>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomeScreen />} />
+          <Route exact path="/" element={<HomeScreen />} />
           <Route
-            path="/sessoes/:idFilme"
+            path="sessoes/:filmeId"
             element={<TimeScreen setPhases={setPhases} />}
           />
           <Route
-            path="/assentos/:idSessao"
+            path="assentos/:sessaoId"
             element={<SessionsScreen setPhases={setPhases} />}
           />
         </Routes>

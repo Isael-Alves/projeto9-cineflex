@@ -1,22 +1,46 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import filme from "../assets/img/image 3.svg";
+import load from "../assets/img/tenor.gif";
+import axios from "axios";
 
-export default function HomeScreen({ setPhases }) {
-  // setPhases("Selecione o horário");
+export default function HomeScreen() {
+ 
+  const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    const moviesAPI = axios.get(
+      "https://mock-api.driven.com.br/api/v5/cineflex/movies"
+    );
+
+    moviesAPI.then((answer) => {
+      setMovies(answer.data);
+    });
+  }, []);
+
+  function structuringMovie() {
+    if (movies.length > 0) {
+      return movies.map(value => {
+        const { id, posterURL, title } = value;
+        return (
+          <Movie
+            id={id}
+            key={id}
+            onClick={() => navigate(`sessoes/${id}`)}>
+            <img src={posterURL} alt={title} />
+          </Movie>
+        );
+      });
+    }
+    return <video>{load}</video>;
+  }
+  const moviePost = structuringMovie();
   return (
     <>
       <Movielist>
-        <Link to="/sessoes/:idFilme">
-          <Movie>
-            <img src={filme} alt="" />
-          </Movie>
-        </Link>
-        <Link to="/sessoes/:idFilme">
-          <Movie>
-            <img src={filme} alt="" />
-          </Movie>
-        </Link>
+        {moviePost}
       </Movielist>
     </>
   );

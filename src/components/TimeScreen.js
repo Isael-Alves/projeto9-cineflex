@@ -1,31 +1,39 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import filme from "../assets/img/image 3.svg";
-// import { useState } from "react";
-export default function TimeScreen({ setPhases }) {
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function TimeScreen({setPhases}) {
+  const params = useParams();
+  const id = params.filmeId;
+  const navigate = useNavigate();
+  useEffect(() => {
+    setPhases("Selecione o horário");
+    const moviesAPI = axios.get(
+      `https://mock-api.driven.com.br/api/v5/cineflex/movies/${id}/showtimes`
+    );
+
+    moviesAPI.then((answer) => {
+      console.log(answer.data);
+    });
+  }, []);
+
   return (
     <>
       <Timelist>
         <Sessions>
           <h2>Quinta-feira - 24/06/2021</h2>
           <Schedules>
-            <Link to="/assentos/:idSessao">
-              <div>14:00</div>
-            </Link>
-            <Link to="/assentos/:idSessao">
-              <div>14:00</div>
-            </Link>
+            <div onClick={() => navigate("assentos")}>14:00</div>
+            <div onClick={() => navigate("assentos")}>14:00</div>
           </Schedules>
         </Sessions>
         <Sessions>
           <h2>Quinta-feira - 24/06/2021</h2>
           <Schedules>
-            <Link to="/assentos/:idSessao">
-              <div>14:00</div>
-            </Link>
-            <Link to="/assentos/:idSessao">
-              <div>14:00</div>
-            </Link>
+            <div onClick={() => navigate("assentos")}>14:00</div>
+            <div onClick={() => navigate("assentos")}>14:00</div>
           </Schedules>
         </Sessions>
       </Timelist>
