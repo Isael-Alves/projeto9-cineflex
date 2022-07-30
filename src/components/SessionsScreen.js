@@ -1,43 +1,57 @@
 import styled from "styled-components";
+import React, { useEffect } from "react";
+import axios from "axios";
 
 export default function SessionsScreen({ setPhase }) {
-  const Assentos = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41,
-    42, 43, 44, 45, 46, 47, 48, 49, 50,
-  ];
+  const [seats, setSeats] = React.useState({});
+  const [name, setName] = React.useState('');
+  const [cpf, setCpf] = React.useState('');
+
+  useEffect(({ setPhase }) => {
+    setPhases("Selecione o(s) assento(s)");
+
+    const seatsAPI = axios.get(
+      `https://mock-api.driven.com.br/api/v7/cineflex/movies/${filmeId}/showtimes`
+    );
+
+    seatsAPI.then((answer) => {
+      setSeats(answer.data);
+    });
+    
+  }, []);
+
   return (
     <>
       <AssentosBox>
-        {Assentos.map((value, i) => (
-          <li key={i}>{value}</li>
-        ))}
+        <li>01</li>
       </AssentosBox>
-      <ul>
+      <Subtitle>
         <li>
-          <div></div>
+          <div className="selected"></div>
           <h5>Selecionado</h5>
         </li>
         <li>
-          <div></div>
+          <div className="available"></div>
           <h5>Disponível</h5>
         </li>
         <li>
-          <div></div>
+          <div className="unavailable"></div>
           <h5>Indisponível</h5>
         </li>
-      </ul>
-      <section>
-        <div>
-          <h4>Nome do comprador:</h4>
-          <input></input>
-        </div>
-        <div>
-          <h4>CPF do comprador:</h4>
-          <input></input>
-        </div>
-      </section>
-      <Button>Reservar assento(s)</Button>
+      </Subtitle>
+      <form>
+        <section>
+          <div>
+            <h4>Nome do comprador:</h4>
+            <input></input>
+          </div>
+          <div>
+            <h4>CPF do comprador:</h4>
+            <input></input>
+          </div>
+        </section>
+        <Button>Reservar assento(s)</Button>
+      </form>
     </>
   );
 }
@@ -67,4 +81,30 @@ const Button = styled.div`
 
   background: #e8833a;
   border-radius: 3px;
+`;
+
+const Subtitle = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+
+  div {
+    width: 25px;
+    height: 25px;
+
+    border: 1px solid #1aae9e;
+    border-radius: 17px;
+  }
+
+  .selected {
+    background-color: #8dd7cf;
+  }
+
+  .available {
+    background-color: #c3cfd9;
+  }
+
+  .unavailable {
+    background-color: #c3cfd9;
+  }
 `;

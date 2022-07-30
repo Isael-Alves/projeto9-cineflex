@@ -9,10 +9,9 @@ export default function HomeScreen() {
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
   
-
   useEffect(() => {
     const moviesAPI = axios.get(
-      "https://mock-api.driven.com.br/api/v5/cineflex/movies"
+      "https://mock-api.driven.com.br/api/v7/cineflex/movies"
     );
 
     moviesAPI.then((answer) => {
@@ -47,10 +46,9 @@ export default function HomeScreen() {
 }
 
 const Movielist = styled.ul`
-  width: 88%;
+  width: 86%;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 170px;
 `;
 
 const Movie = styled.li`

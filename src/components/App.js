@@ -7,11 +7,7 @@ import SessionsScreen from "./TimeScreen";
 
 export default function App() {
   const [phases, setPhases] = React.useState("Selecione o filme");
-  // const [footer, setFooter] = React.useState({
-  //   img: "",
-  //   movie: "",
-  //   time: "",
-  // });
+
   return (
     <Body>
       <Header>CINEFLEX</Header>
@@ -32,10 +28,15 @@ export default function App() {
     </Body>
   );
 }
+
 const Body = styled.div`
+  width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
+
 const Header = styled.header`
   position: fixed;
   width: 100%;
@@ -54,15 +55,15 @@ const Header = styled.header`
 `;
 
 const Phase = styled.article`
-  position: fixed;
+  margin-top: 67px;
   width: 100%;
   height: 110px;
-  left: 0;
-  top: 67px;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
 `;
