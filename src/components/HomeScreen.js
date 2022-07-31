@@ -27,13 +27,13 @@ export default function HomeScreen() {
           <Movie
             id={id}
             key={id}
-            onClick={() => navigate(`sessoes/${id}`)}>
+            onClick={() => navigate(`../sessoes/${id}`)}>
             <img src={posterURL} alt={title} />
           </Movie>
         );
       });
     }
-    return <video>{load}</video>;
+    return <Load src={load} alt="load" />
   }
   const moviePost = structuringMovie();
   return (
@@ -69,4 +69,10 @@ const Movie = styled.li`
     width: 129px;
     height: 193px;
   }
+`;
+
+const Load = styled.img`
+margin: 0 auto;
+width: 300px;
+height: 250px;
 `;

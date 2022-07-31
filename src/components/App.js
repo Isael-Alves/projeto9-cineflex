@@ -3,20 +3,20 @@ import styled from "styled-components";
 import React from "react";
 import HomeScreen from "./HomeScreen";
 import TimeScreen from "./TimeScreen";
-import SessionsScreen from "./TimeScreen";
+import SessionsScreen from "./SessionsScreen";
 
 export default function App() {
   const [phases, setPhases] = React.useState("Selecione o filme");
 
   return (
-    <Body>
+     <Body>
       <Header>CINEFLEX</Header>
       <Phase>{phases}</Phase>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<HomeScreen />} />
+          <Route path="/" element={<HomeScreen />} />
           <Route
-            path="sessoes/:filmeId"
+            path="/sessoes/:filmeId"
             element={<TimeScreen setPhases={setPhases} />}
           />
           <Route

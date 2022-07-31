@@ -1,30 +1,66 @@
 import styled from "styled-components";
 import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import load from "../assets/img/tenor.gif";
 import axios from "axios";
 
-export default function SessionsScreen({ setPhase }) {
-  const [seats, setSeats] = React.useState({});
-  const [name, setName] = React.useState('');
-  const [cpf, setCpf] = React.useState('');
+export default function SessionsScreen({ setPhases }) {
+  setPhases("Selecione o(s) assento(s)");
+  const params = useParams();
+  const { sessaoId } = params;
+  const [seats, setSeats] = React.useState(undefined);
+  const [name, setName] = React.useState("");
+  const [cpf, setCpf] = React.useState("");
 
-  useEffect(({ setPhase }) => {
-    setPhases("Selecione o(s) assento(s)");
-
+  useEffect(() => {
     const seatsAPI = axios.get(
-      `https://mock-api.driven.com.br/api/v7/cineflex/movies/${filmeId}/showtimes`
+      `https://mock-api.driven.com.br/api/v7/cineflex/showtimes/${sessaoId}/seats`
     );
 
     seatsAPI.then((answer) => {
       setSeats(answer.data);
     });
-    
   }, []);
+
+  function structuringSeats() {
+    if (seats !== undefined) {
+      const places = seats.seats;
+      return (
+        <AssentosBox>
+          {places.map((place) => (
+            <li key={place.id}>{place.name}</li>
+          ))}
+        </AssentosBox>
+      );
+    }
+    return <Load src={load} alt="load" />;
+  }
+
+  function Footer() {
+    if (seats !== undefined) {
+      console.log(seats);
+      const { movie, day, name } = seats;
+      return (
+        <FooterContainer>
+          <div>
+            <img src={movie.posterURL} alt={movie.title} />
+          </div>
+          <section>
+            <h3>{movie.title}</h3>
+            <h3>
+              {day.weekday} - {name}
+            </h3>
+          </section>
+        </FooterContainer>
+      );
+    } else {
+      return <FooterContainer></FooterContainer>;
+    }
+  }
 
   return (
     <>
-      <AssentosBox>
-        <li>01</li>
-      </AssentosBox>
+      {structuringSeats()}
       <Subtitle>
         <li>
           <div className="selected"></div>
@@ -52,19 +88,22 @@ export default function SessionsScreen({ setPhase }) {
         </section>
         <Button>Reservar assento(s)</Button>
       </form>
+      {Footer()}
     </>
   );
 }
 
 const AssentosBox = styled.ul`
-  margin-top: 160px;
   width: 325px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 
   li {
     width: 26px;
     height: 26px;
+    margin-right: 5px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,13 +123,22 @@ const Button = styled.div`
 `;
 
 const Subtitle = styled.ul`
+  width: 250px;
+
   display: flex;
   justify-content: space-between;
   padding: 10px;
 
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   div {
     width: 25px;
     height: 25px;
+    margin-bottom: 4px;
 
     border: 1px solid #1aae9e;
     border-radius: 17px;
@@ -105,6 +153,49 @@ const Subtitle = styled.ul`
   }
 
   .unavailable {
-    background-color: #c3cfd9;
+    background-color: #fbe192;
+  }
+`;
+const Load = styled.img`
+  margin: 0 auto;
+  width: 300px;
+  height: 250px;
+`;
+
+const FooterContainer = styled.footer`
+  position: fixed;
+  width: 100%;
+  height: 117px;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background-color: #dfe6ed;
+  border: 1px solid #9eadba;
+
+  div {
+    width: 73px;
+    height: 98px;
+    margin-right: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+  }
+  img {
+    width: 58px;
+    height: 84px;
+  }
+  h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+
+    color: #293845;
   }
 `;

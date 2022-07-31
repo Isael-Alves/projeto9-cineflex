@@ -5,14 +5,13 @@ import axios from "axios";
 import load from "../assets/img/tenor.gif";
 
 export default function TimeScreen({ setPhases }) {
+  setPhases("Selecione o horário");
   const params = useParams();
   const filmeId = params.filmeId;
   const navigate = useNavigate();
   const [dados, setDados] = React.useState(undefined);
 
   useEffect(() => {
-    setPhases("Selecione o horário");
-
     const movieAPI = axios.get(
       `https://mock-api.driven.com.br/api/v7/cineflex/movies/${filmeId}/showtimes`
     );
@@ -38,7 +37,7 @@ export default function TimeScreen({ setPhases }) {
             <Schedules>
               {showtimes.map((times, i) => {
                 return (
-                  <div key={i} onClick={() => navigate(`assentos/${times.id}`)} >
+                  <div key={i} onClick={() => {navigate(`../assentos/${times.id}`)}} >
                     {times.name}
                   </div>
                 );
@@ -48,7 +47,7 @@ export default function TimeScreen({ setPhases }) {
         );
       });
     }
-    return <video>{load}</video>;
+    return <Load src={load} alt="load" />
   }
 
   function Footer() {
@@ -68,11 +67,10 @@ export default function TimeScreen({ setPhases }) {
   }
 
   const renderFooter = Footer();
-  const renderSessions = structuringSessionsDay();
 
   return (
     <>
-      <Timelist>{renderSessions}</Timelist>
+      <Timelist>{structuringSessionsDay()}</Timelist>
       {renderFooter}
     </>
   );
@@ -156,4 +154,10 @@ const FooterContainer = styled.footer`
 
     color: #293845;
   }
+`;
+
+const Load = styled.img`
+margin: 0 auto;
+width: 300px;
+height: 250px;
 `;
