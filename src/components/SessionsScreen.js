@@ -76,16 +76,16 @@ export default function SessionsScreen({ setPhases }) {
         </li>
       </Subtitle>
       <form>
-        <section>
+        <Form>
           <div>
             <h4>Nome do comprador:</h4>
-            <input></input>
+            <input type="text" placeholder="Digite seu nome..." />
           </div>
           <div>
             <h4>CPF do comprador:</h4>
-            <input></input>
+            <input type="text" placeholder="Digite seu CPF..." />
           </div>
-        </section>
+        </Form>
         <Button>Reservar assento(s)</Button>
       </form>
       {Footer()}
@@ -113,14 +113,6 @@ const AssentosBox = styled.ul`
     border-radius: 12px;
   }
 `;
-const Button = styled.div`
-  margin: 0 auto;
-  width: 225px;
-  height: 42px;
-
-  background: #e8833a;
-  border-radius: 3px;
-`;
 
 const Subtitle = styled.ul`
   width: 250px;
@@ -144,6 +136,15 @@ const Subtitle = styled.ul`
     border-radius: 17px;
   }
 
+  h5 {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.013em;
+
+    color: #4e5a65;
+  }
+
   .selected {
     background-color: #8dd7cf;
   }
@@ -156,10 +157,59 @@ const Subtitle = styled.ul`
     background-color: #fbe192;
   }
 `;
+
+const Form = styled.section`
+  h4 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #293845;
+  }
+
+  input {
+    width: 327px;
+    height: 51px;
+    padding: 10px;
+
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+
+    background: #ffffff;
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+  }
+
+  ::placeholder {
+    color: #afafaf;
+  }
+`;
+
 const Load = styled.img`
   margin: 0 auto;
   width: 300px;
   height: 250px;
+`;
+
+const Button = styled.div`
+  margin: 0 auto;
+  margin-top: 35px;
+  width: 225px;
+  height: 42px;
+
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e8833a;
+  color: #ffffff;
+  border-radius: 3px;
 `;
 
 const FooterContainer = styled.footer`
