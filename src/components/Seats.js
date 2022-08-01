@@ -6,9 +6,10 @@ function Seats({ session, selecting, selecionados }) {
     <AssentosBox>
       {places.map((place) => {
         const selected = selecionados.some(assento => assento.id === place.id);
+        console.log(place.isAvailable);
         return (
           <li
-            available={place.isAvailable}
+            available = {place.isAvailable}
             selected={selected}
             key={place.id}
             onClick={() => selecting(place.id)}
@@ -36,13 +37,14 @@ const AssentosBox = styled.ul`
     align-items: center;
     justify-content: center;
 
-    background-color: ${(selected, available) => {
+    background-color: ${({selected, available}) => {
       if (selected) {
         return "#8DD7CF";
       } else if (available) {
         return "#C3CFD9";
+      }else {
+        return "#FBE192";
       }
-      return "#FBE192";
     }};
     border: 1px solid #808f9d;
     border-radius: 12px;
