@@ -9,8 +9,8 @@ export default function SessionsScreen({ setPhases }) {
   const params = useParams();
   const { sessaoId } = params;
   const [seats, setSeats] = React.useState(undefined);
-  const [name, setName] = React.useState("");
-  const [cpf, setCpf] = React.useState("");
+  const [selecionados, setSelecionados] = React.useState([]);
+  const [dates, setDates] = React.useState({ name: "", cpf: "" });
 
   useEffect(() => {
     const seatsAPI = axios.get(
@@ -20,6 +20,11 @@ export default function SessionsScreen({ setPhases }) {
     seatsAPI.then((answer) => {
       setSeats(answer.data);
     });
+
+    seatsAPI.catch((err) => {
+      const message = err.response.statusText;
+      alert(message);
+    });
   }, []);
 
   function structuringSeats() {
@@ -27,18 +32,46 @@ export default function SessionsScreen({ setPhases }) {
       const places = seats.seats;
       return (
         <AssentosBox>
-          {places.map((place) => (
-            <li key={place.id}>{place.name}</li>
-          ))}
+          {places.map(place => {
+            if (place.isAvailable === true) {
+              return (
+                <li
+                  className="available"
+                  key={place.id}
+                  onClick={() => selecting(place.id)}
+                >
+                  {place.name}
+                </li>
+              );
+            }
+            return (
+              <li className="unavailable" key={place.id}>
+                {place.name}
+              </li>
+            );
+          })}
         </AssentosBox>
       );
     }
     return <Load src={load} alt="load" />;
   }
 
+  function selecting(id) {
+    const places = seats.seats;
+     places.map((place, i) => {
+      if(place.id === id){
+        const obj = {
+          name: place.name,
+          id:id
+        }
+        console.log("ok");
+        return setSelecionados(...selecionados, obj);
+      }
+     })
+  }
+
   function Footer() {
     if (seats !== undefined) {
-      console.log(seats);
       const { movie, day, name } = seats;
       return (
         <FooterContainer>
@@ -79,11 +112,11 @@ export default function SessionsScreen({ setPhases }) {
         <Form>
           <div>
             <h4>Nome do comprador:</h4>
-            <input type="text" placeholder="Digite seu nome..." />
+            <input type="text" placeholder="Digite seu nome..." required />
           </div>
           <div>
             <h4>CPF do comprador:</h4>
-            <input type="text" placeholder="Digite seu CPF..." />
+            <input type="text" placeholder="Digite seu CPF..." required />
           </div>
         </Form>
         <Button>Reservar assento(s)</Button>
@@ -108,9 +141,14 @@ const AssentosBox = styled.ul`
     align-items: center;
     justify-content: center;
 
-    background-color: #c3cfd9;
     border: 1px solid #808f9d;
     border-radius: 12px;
+  }
+  .available {
+    background-color: #c3cfd9;
+  }
+  .unavailable {
+    background-color: #fbe192;
   }
 `;
 

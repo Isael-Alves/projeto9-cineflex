@@ -17,6 +17,11 @@ export default function HomeScreen() {
     moviesAPI.then((answer) => {
       setMovies(answer.data);
     });
+
+    moviesAPI.catch(err => {
+      const message = err.response.statusText;
+      alert(message);
+    });
   }, []);
 
   function structuringMovie() {

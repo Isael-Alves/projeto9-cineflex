@@ -20,6 +20,11 @@ export default function TimeScreen({ setPhases }) {
       setDados(answer.data);
     });
 
+    movieAPI.catch(err => {
+      const message = err.response.statusText;
+      alert(message);
+    });
+
   }, []);
 
   function structuringSessionsDay() {
