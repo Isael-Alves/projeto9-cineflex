@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import load from "../assets/img/tenor.gif";
 import axios from "axios";
+import Seats from "./Seats";
 
 export default function SessionsScreen({ setPhases }) {
   setPhases("Selecione o(s) assento(s)");
   const params = useParams();
   const { sessaoId } = params;
-  const [seats, setSeats] = React.useState(undefined);
+  const [session, setSession] = React.useState(undefined);
   const [selecionados, setSelecionados] = React.useState([]);
   const [dates, setDates] = React.useState({ name: "", cpf: "" });
 
@@ -18,7 +19,7 @@ export default function SessionsScreen({ setPhases }) {
     );
 
     seatsAPI.then((answer) => {
-      setSeats(answer.data);
+      setSession(answer.data);
     });
 
     seatsAPI.catch((err) => {
@@ -27,52 +28,34 @@ export default function SessionsScreen({ setPhases }) {
     });
   }, []);
 
-  function structuringSeats() {
-    if (seats !== undefined) {
-      const places = seats.seats;
-      return (
-        <AssentosBox>
-          {places.map(place => {
-            if (place.isAvailable === true) {
-              return (
-                <li
-                  className="available"
-                  key={place.id}
-                  onClick={() => selecting(place.id)}
-                >
-                  {place.name}
-                </li>
-              );
-            }
-            return (
-              <li className="unavailable" key={place.id}>
-                {place.name}
-              </li>
-            );
-          })}
-        </AssentosBox>
-      );
+  function StructuringSeats() {
+    console.log(session);
+    if (session) {
+      return <Seats session={session} selecting={selecting} selecionados={selecionados}/>;
     }
     return <Load src={load} alt="load" />;
   }
 
   function selecting(id) {
-    const places = seats.seats;
-     places.map((place, i) => {
-      if(place.id === id){
-        const obj = {
-          name: place.name,
-          id:id
+    console.log(session);
+    if (session.seats.length > 0) {
+      const places = session.seats;
+      places.map(place => {
+        if (place.id === id) {
+          const obj = {
+            name: place.name,
+            id: id,
+          };
+          console.log("ok");
+          setSelecionados([...selecionados, obj]);
         }
-        console.log("ok");
-        return setSelecionados(...selecionados, obj);
-      }
-     })
+      });
+    }
   }
 
   function Footer() {
-    if (seats !== undefined) {
-      const { movie, day, name } = seats;
+    if (session) {
+      const { movie, day, name } = session;
       return (
         <FooterContainer>
           <div>
@@ -93,7 +76,7 @@ export default function SessionsScreen({ setPhases }) {
 
   return (
     <>
-      {structuringSeats()}
+      <StructuringSeats />
       <Subtitle>
         <li>
           <div className="selected"></div>
@@ -125,32 +108,6 @@ export default function SessionsScreen({ setPhases }) {
     </>
   );
 }
-
-const AssentosBox = styled.ul`
-  width: 325px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  li {
-    width: 26px;
-    height: 26px;
-    margin-right: 5px;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid #808f9d;
-    border-radius: 12px;
-  }
-  .available {
-    background-color: #c3cfd9;
-  }
-  .unavailable {
-    background-color: #fbe192;
-  }
-`;
 
 const Subtitle = styled.ul`
   width: 250px;

@@ -20,7 +20,7 @@ export default function App() {
             element={<TimeScreen setPhases={setPhases} />}
           />
           <Route
-            path="assentos/:sessaoId"
+            path="/assentos/:sessaoId"
             element={<SessionsScreen setPhases={setPhases} />}
           />
         </Routes>
